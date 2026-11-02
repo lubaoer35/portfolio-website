@@ -27,5 +27,10 @@ export default defineConfig({
       url: "http://127.0.0.1:5181",
       reuseExistingServer: !process.env.CI,
     },
+    {
+      command: "node tests/fixtures/cms-server.mjs",
+      url: "http://127.0.0.1:5182/api/health",
+      reuseExistingServer: false,
+    },
   ],
 });

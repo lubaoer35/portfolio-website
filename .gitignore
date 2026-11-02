@@ -13,3 +13,5 @@ dist-editor/
 .content-backups/
 playwright-report/
 test-results/
+.cms-data/
+dist-admin/

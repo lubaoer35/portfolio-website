@@ -155,8 +155,8 @@ export function validateContent(c) {
       throw new Error("元素样式值不正确");
     for (const [k, min, max] of [
       ["fontSize", 8, 120],
-      ["offsetX", -40, 40],
-      ["offsetY", -40, 40],
+      ["offsetX", -160, 160],
+      ["offsetY", -160, 160],
       ["width", 50, 100],
       ["gap", 0, 100],
     ])

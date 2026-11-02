@@ -4,6 +4,8 @@ import { ArrowUpRight, ArrowDown } from "lucide-react";
 import { useContent, EditableText } from "../content/ContentProvider";
 import ProjectCard from "../components/ProjectCard";
 import { PortfolioTitle, HeroDecorations, StudioClock } from "../animations";
+import DraggableModule from "../editor/DraggableModule";
+import Intro from "../components/Intro";
 import ProfileSummary from "../sections/ProfileSummary";
 export default function Home() {
   const {
@@ -19,6 +21,7 @@ export default function Home() {
   return (
     <>
       <section className="hero" id="home">
+        <Intro />
         <HeroDecorations />
         <div className="hero-top">
           <span className="eyebrow">
@@ -33,33 +36,33 @@ export default function Home() {
           </span>
         </div>
         <PortfolioTitle />
-        <div className="hero-bottom">
-          <div className="hero-name">
-            <strong>
-              <EditableText path="profile.name" />
-              <span>
-                <EditableText path="profile.englishName" />
-              </span>
-            </strong>
-            <p>
-              {profile.major} · {profile.degree} · {profile.graduation}
+        <DraggableModule id="hero-info" label="首屏信息">
+          <div className="hero-bottom">
+            <div className="hero-name">
+              <strong>
+                <EditableText path="profile.name" />
+                <span>
+                  <EditableText path="profile.englishName" />
+                </span>
+              </strong>
+              <p>2027 / DESIGN PORTFOLIO</p>
+            </div>
+            <p className="hero-directions">
+              VISUAL DESIGNER & DIGITAL MEDIA ARTIST
+              <br />
+              <span>品牌视觉设计 · 创意视觉设计</span>
             </p>
+            <a className="scroll-link" href="#selected">
+              Explore the work{" "}
+              <span>
+                <ArrowDown size={18} />
+              </span>
+            </a>
           </div>
-          <p className="hero-directions">
-            BRAND VISUAL / CREATIVE DESIGN
-            <br />
-            <span>品牌视觉设计 · 创意视觉设计</span>
-          </p>
-          <a className="scroll-link" href="#selected">
-            Explore the work{" "}
-            <span>
-              <ArrowDown size={18} />
-            </span>
-          </a>
-        </div>
+        </DraggableModule>
         <div className="hero-foot">
-          <span>INDEPENDENT PERSPECTIVES. VISUAL POSSIBILITIES.</span>
-          <span>SELECTED WORKS ↓</span>
+          <span>01 / SELECTED WORKS</span>
+          <span>SCROLL TO EXPLORE ↓</span>
         </div>
       </section>
       <section id="selected" className="work-section">
@@ -77,7 +80,7 @@ export default function Home() {
             探索视觉表达的更多可能。
           </p>
         </div>
-        <div className="project-grid editorial-grid">
+        <div className="project-grid editorial-grid exhibition-grid">
           {featuredSlugs.map((slug, index) => (
             <ProjectCard
               key={slug}

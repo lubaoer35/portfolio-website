@@ -85,7 +85,12 @@ export default function About() {
             </span>
           </div>
         </div>
-        <div className="awards-list">
+        <div
+          className="awards-list"
+          tabIndex={0}
+          role="region"
+          aria-label="获奖记录滚动区"
+        >
           {profile.awards.map(([name, award, rank], i) => (
             <div className="award-row" key={i}>
               <span className="award-n">{String(i + 1).padStart(2, "0")}</span>

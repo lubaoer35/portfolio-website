@@ -6,9 +6,9 @@ test("real projects, working filters and isolated public browsing", async ({
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/work");
   await expect(page.locator(".project-card")).toHaveCount(8);
-  await page.getByRole("button", { name: /^UI \/ UX/ }).click();
+  await page.getByRole("button", { name: /^UI DESIGN/ }).click();
   await expect(page.locator(".project-card")).toHaveCount(2);
-  await page.getByRole("button", { name: /^OTHER/ }).click();
+  await page.getByRole("button", { name: /^MOTION/ }).click();
   await expect(page.locator(".project-card")).toHaveCount(1);
   await page.locator(".project-card").click();
   await expect(page.locator(".gallery-image")).toHaveCount(4);

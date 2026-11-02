@@ -8,7 +8,7 @@
     "degree": "本科",
     "major": "数字媒体艺术",
     "graduation": "2027届",
-    "direction": "品牌视觉设计 / 创意视觉设计 / 数字媒体艺术设计",
+    "direction": "品牌视觉 / 创意视觉 / 插画设计 / UI设计 / IP设计 / 动态视觉",
     "skills": [
       "Adobe Illustrator",
       "Adobe Photoshop",
@@ -601,8 +601,7 @@
       "tags": [
         "Illustration",
         "Brand Visual",
-        "Motion",
-        "Other"
+        "Motion"
       ],
       "year": null,
       "pageRange": "51—54",
@@ -658,11 +657,11 @@
     }
   ],
   "featuredSlugs": [
+    "vision-reconstructed",
     "iqiyi-vision",
     "free-in-the-wind",
     "red-bull",
     "gentle-monster",
-    "vision-reconstructed",
     "cool-penguin"
   ],
   "sourceNote": "项目内容依据本人作品集整理；品牌名称用于说明创作主题，不代表官方委托或合作关系。",
@@ -677,7 +676,7 @@
     },
     {
       "id": "UI",
-      "label": "UI / UX"
+      "label": "UI DESIGN"
     },
     {
       "id": "Illustration",
@@ -689,11 +688,7 @@
     },
     {
       "id": "Motion",
-      "label": "MOTION / 3D"
-    },
-    {
-      "id": "Other",
-      "label": "OTHER"
+      "label": "MOTION"
     }
   ],
   "hero": {

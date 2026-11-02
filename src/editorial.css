@@ -562,3 +562,312 @@ html {
     opacity: 0.5;
   }
 }
+/* Exhibition direction: cream paper ending, pink collage tabs, discreet right index. */
+.nav-contact-button {
+  background: var(--blue);
+  color: var(--paper);
+  font-size: 10px;
+  padding: 13px 21px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.nav-availability {
+  display: none;
+}
+.header.is-scrolled {
+  height: 76px;
+}
+.opening-intro {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+.opening-intro > span {
+  position: absolute;
+  top: 10px;
+  left: 4.5%;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--blue);
+}
+.opening-intro button {
+  pointer-events: auto;
+  position: absolute;
+  right: 4.5%;
+  bottom: 28px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  font-size: 8px;
+  letter-spacing: 1px;
+  padding: 8px 12px;
+}
+.exhibition-grid > .project-card:first-child .project-image:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 8%;
+  width: 55px;
+  height: 14px;
+  background: #d7aebb88;
+  transform: rotate(5deg);
+}
+.exhibition-grid > .project-card:nth-child(2) {
+  margin-top: 130px;
+}
+.side-progress {
+  position: fixed;
+  right: 12px;
+  top: 42%;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+  color: var(--blue);
+}
+.side-progress > span {
+  font-size: 6px;
+  letter-spacing: 1px;
+  writing-mode: vertical-rl;
+}
+.side-progress > div {
+  height: 105px;
+  width: 1px;
+  background: #193b8525;
+}
+.side-progress i {
+  display: block;
+  width: 1px;
+  height: 100%;
+  background: var(--blue);
+  transform-origin: top;
+}
+.side-progress small {
+  font-size: 6px;
+  writing-mode: vertical-rl;
+}
+.awards-list {
+  max-height: 480px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #9daac1 transparent;
+}
+.award-row {
+  transition:
+    background 0.25s,
+    color 0.25s,
+    padding 0.25s;
+}
+.award-row:hover {
+  background: #e9eaf0;
+  color: var(--blue);
+  padding-left: 12px;
+  padding-right: 12px;
+}
+footer {
+  position: relative;
+  background: var(--paper);
+  color: var(--blue);
+  border-top: 1px solid var(--line);
+  isolation: isolate;
+}
+footer:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/projects/identity/paper.webp") center/cover;
+  opacity: 0.22;
+  z-index: -1;
+  pointer-events: none;
+}
+.footer-cta {
+  position: relative;
+  text-align: center;
+  justify-content: center;
+  margin: 65px 0 35px;
+}
+.footer-cta h2 {
+  font-size: clamp(52px, 7.5vw, 116px);
+  line-height: 1.08;
+  letter-spacing: -0.055em;
+}
+.footer-cta > span {
+  display: none;
+}
+.footer-cta:after {
+  content: "";
+  position: absolute;
+  bottom: -22px;
+  left: 12%;
+  right: 12%;
+  height: 50px;
+  border-bottom: 1px solid var(--blue);
+  border-radius: 50%;
+  transform: rotate(-4deg);
+  pointer-events: none;
+}
+.footer-top {
+  color: var(--blue);
+}
+.footer-contact {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin: 65px 0 40px;
+}
+.footer-contact > a:first-child {
+  font-size: 15px;
+}
+.footer-contact > .ending-contact {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: var(--paper);
+  background: var(--blue);
+  border: 0;
+  padding: 13px 22px;
+  font-size: 10px;
+}
+.footer-bottom,
+.back-top-row {
+  border-color: #193b8530;
+  color: var(--blue);
+}
+.footer-bottom > a,
+.back-to-top,
+.back-top-row > .eyebrow {
+  color: var(--blue);
+}
+.back-to-top small {
+  color: #6b7894;
+}
+.scroll-progress {
+  stroke: #193b8530;
+}
+.scroll-progress > circle:last-child {
+  stroke: var(--blue);
+}
+.footer-bottom {
+  justify-content: space-between;
+}
+@media (max-width: 700px) {
+  .nav-contact-button {
+    margin-left: auto;
+    margin-right: 12px;
+    padding: 10px 13px;
+    font-size: 8px;
+    gap: 12px;
+  }
+  .header .logo {
+    margin-right: auto;
+  }
+  .header .menu-toggle {
+    order: 4;
+  }
+  .header.is-scrolled {
+    height: 70px;
+  }
+  .side-progress {
+    right: 5px;
+    opacity: 0.6;
+  }
+  .exhibition-grid > .project-card:nth-child(2) {
+    margin-top: 0;
+  }
+  .footer-cta h2 {
+    font-size: clamp(38px, 9.5vw, 65px);
+  }
+  .footer-cta {
+    margin: 45px 0;
+  }
+  .footer-contact {
+    margin: 55px 0 30px;
+    gap: 20px;
+  }
+  .footer-contact > a:first-child {
+    font-size: 13px;
+  }
+  .opening-intro button {
+    bottom: 8px;
+  }
+  .awards-list {
+    max-height: 550px;
+  }
+}
+.admin-access {
+  padding: 8px;
+  color: var(--blue);
+  margin-left: 10px;
+}
+.admin-unavailable {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--blue);
+  max-width: 460px;
+  padding: 30px;
+}
+.admin-unavailable::backdrop {
+  background: #15234b77;
+}
+.admin-unavailable > button {
+  float: right;
+}
+.admin-unavailable h2 {
+  font-size: 24px;
+  margin: 15px 0;
+}
+.admin-unavailable p {
+  font-size: 13px;
+  line-height: 2;
+  margin: 15px 0;
+}
+@media (max-width: 700px) {
+  .admin-access {
+    margin-left: 0;
+    padding: 6px;
+  }
+  .admin-unavailable {
+    max-width: 90vw;
+  }
+}
+.draggable-module {
+  position: relative;
+}
+
+.nav .nav-contact {
+  text-transform: uppercase;
+}
+
+.ending-signature {
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 3px;
+  margin-top: 45px;
+  color: var(--blue);
+}
+/* Reserve the header's original flow height while its sticky box shrinks.
+   Otherwise browser scroll anchoring can oscillate around the collapse threshold. */
+.header {
+  --nav-rest: 104px;
+  --nav-small: 76px;
+  height: var(--nav-rest);
+  margin-bottom: 0;
+  transition:
+    height 0.3s ease,
+    margin-bottom 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.header.is-scrolled {
+  height: var(--nav-small);
+  margin-bottom: calc(var(--nav-rest) - var(--nav-small));
+}
+@media (max-width: 700px) {
+  .header {
+    --nav-rest: 84px;
+    --nav-small: 70px;
+  }
+}

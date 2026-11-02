@@ -14,6 +14,7 @@ import {
 } from "motion/react";
 import { useContent, EditableText } from "../content/ContentProvider";
 import { rememberScroll, savedScroll } from "./scrollPositions";
+import AdminAccess from "./AdminAccess";
 export default function Navigation() {
   const {
     profile,
@@ -38,7 +39,7 @@ export default function Navigation() {
   useLayoutEffect(() => {
     setOpen(false);
     const p = projects.find((p) => location.pathname === `/work/${p.slug}`);
-    document.title = `${p?.name || (location.pathname === "/about" ? "About · 关于我" : location.pathname === "/work" ? "Works · 作品" : "Portfolio")} — ${profile.name} LV BAO ER`;
+    document.title = `${p?.name || (location.pathname === "/about" ? "About · 关于我" : location.pathname === "/work" ? "Works · 作品" : "PORTFOLIO 2027")} — ${profile.name} LV BAO ER`;
     const key = location.pathname + location.search;
     const samePage = previous.current === location.pathname;
     if (location.hash)
@@ -106,6 +107,10 @@ export default function Navigation() {
           Contact <ArrowDown size={14} />
         </a>
       </motion.nav>
+      <AdminAccess />
+      <a className="nav-contact-button" href="#contact">
+        CONTACT <ArrowDown size={13} />
+      </a>
       <span className="nav-availability">
         2027 /<br /> AVAILABLE FOR OPPORTUNITIES
       </span>

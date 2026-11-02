@@ -9,10 +9,13 @@ import { asset } from "../data";
 import { defaultContent } from "./defaults";
 import { getPath, setPath, validateContent } from "./schema";
 import { storeRead, storeWrite } from "./storage";
+import { cmsRead, cmsWrite } from "./cmsClient";
+export const REMOTE_ADMIN_MODE = import.meta.env.MODE === "admin";
 const Context = createContext(null);
 export const ADMIN_MODE =
-  import.meta.env.MODE === "editor" &&
-  ["localhost", "127.0.0.1", "[::1]"].includes(window.location.hostname);
+  REMOTE_ADMIN_MODE ||
+  (import.meta.env.MODE === "editor" &&
+    ["localhost", "127.0.0.1", "[::1]"].includes(window.location.hostname));
 export function ContentProvider({ children }) {
   const [content, setContent] = useState(defaultContent),
     [checkpoint, setCheckpoint] = useState(defaultContent),
@@ -23,6 +26,8 @@ export function ContentProvider({ children }) {
     [ready, setReady] = useState(false);
   const [error, setError] = useState("");
   const revision = useRef(0);
+  const history = useRef([]);
+  const [canUndo, setCanUndo] = useState(false);
   useEffect(() => {
     let alive = true;
     (async () => {
@@ -32,12 +37,20 @@ export function ContentProvider({ children }) {
         });
         if (!response.ok) throw new Error("内容文件无法读取，当前显示内置作品");
         let published = validateContent(await response.json());
-        let saved = ADMIN_MODE ? await storeRead() : null;
+        let saved = REMOTE_ADMIN_MODE
+          ? await cmsRead()
+          : ADMIN_MODE
+            ? await storeRead()
+            : null;
         if (!alive) return;
-        if (saved) {
+        if (saved?.content) {
           published = validateContent(saved.content);
           setCheckpoint(validateContent(saved.checkpoint || published));
-          setStatus("已恢复本机草稿 · 未同步线上");
+          setStatus(
+            REMOTE_ADMIN_MODE
+              ? "已读取后台持久化草稿 · 尚未发布"
+              : "已恢复本机草稿 · 未同步线上",
+          );
         } else {
           setCheckpoint(published);
         }
@@ -71,15 +84,22 @@ export function ContentProvider({ children }) {
   useEffect(() => {
     if (!ADMIN_MODE || !ready) return;
     const version = ++revision.current;
-    setStatus("正在自动保存本机草稿…");
+    setStatus(REMOTE_ADMIN_MODE ? "正在保存到后台…" : "正在自动保存本机草稿…");
     const timer = setTimeout(
       () =>
-        storeWrite({ content, checkpoint })
+        (REMOTE_ADMIN_MODE
+          ? cmsWrite({ content, checkpoint })
+          : storeWrite({ content, checkpoint })
+        )
           .then(() => {
             if (version === revision.current)
-              setStatus("草稿已自动保存到此浏览器 · 未同步线上");
+              setStatus(
+                REMOTE_ADMIN_MODE
+                  ? "后台草稿已持久化保存 · 尚未发布"
+                  : "草稿已自动保存到此浏览器 · 未同步线上",
+              );
           })
-          .catch((e) => setError(`本地保存失败：${e.message}`)),
+          .catch((e) => setError(`保存失败：${e.message}`)),
       650,
     );
     return () => clearTimeout(timer);
@@ -87,6 +107,9 @@ export function ContentProvider({ children }) {
   const replace = (next) => {
     try {
       validateContent(next);
+      history.current.push(content);
+      if (history.current.length > 25) history.current.shift();
+      setCanUndo(true);
       setContent(next);
       setError("");
       return true;
@@ -99,9 +122,15 @@ export function ContentProvider({ children }) {
   const save = async () => {
     try {
       validateContent(content);
-      await storeWrite({ content, checkpoint: content });
+      await (REMOTE_ADMIN_MODE
+        ? cmsWrite({ content, checkpoint: content })
+        : storeWrite({ content, checkpoint: content }));
       setCheckpoint(structuredClone(content));
-      setStatus("SAVE 成功 · 本机检查点已保存，尚未发布");
+      setStatus(
+        REMOTE_ADMIN_MODE
+          ? "SAVE 成功 · 后台检查点已保存，尚未发布"
+          : "SAVE 成功 · 本机检查点已保存，尚未发布",
+      );
       return true;
     } catch (e) {
       setError(e.message);
@@ -141,7 +170,14 @@ export function ContentProvider({ children }) {
       ],
     };
   };
+  const undo = () => {
+    const previous = history.current.pop();
+    if (previous) setContent(previous);
+    setCanUndo(history.current.length > 0);
+  };
   const value = {
+    undo,
+    canUndo,
     ...content,
     content,
     ready,

@@ -14,10 +14,14 @@ import "./styles.css";
 import "./animations.css";
 import "./editorial.css";
 const Editor =
-  import.meta.env.MODE === "editor"
+  import.meta.env.MODE === "editor" || import.meta.env.MODE === "admin"
     ? lazy(() => import("./editor/EditorPanel"))
     : null;
 import { ADMIN_MODE } from "./content/ContentProvider";
+const RemoteGate =
+  import.meta.env.MODE === "admin"
+    ? lazy(() => import("./editor/RemoteGate"))
+    : null;
 function App() {
   return (
     <ContentProvider>
@@ -52,8 +56,27 @@ function App() {
     </ContentProvider>
   );
 }
+// Pages may add a directory slash for a physical route. Keep client URLs canonical.
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+const appPath = window.location.pathname.slice(basePath.length);
+if (appPath.length > 1 && appPath.endsWith("/"))
+  window.history.replaceState(
+    window.history.state,
+    "",
+    window.location.pathname.slice(0, -1) +
+      window.location.search +
+      window.location.hash,
+  );
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
+    {RemoteGate ? (
+      <Suspense fallback={<p>正在验证管理员身份…</p>}>
+        <RemoteGate>
+          <App />
+        </RemoteGate>
+      </Suspense>
+    ) : (
+      <App />
+    )}
   </React.StrictMode>,
 );

@@ -19,3 +19,15 @@ Known nonblocking build output: client-only Motion and React Router modules emit
 Editor limits are explicit: it is a loopback-only administrator build, not a remote authentication service. Local draft storage and release export are not online synchronization or deployment. Uploaded content becomes public only after import, review, commit and a successful hosting deployment.
 
 These local checks do not establish GitHub Actions success or public HTTPS availability; those must be verified separately.
+
+## Exhibition and secure backend update
+
+- New first-visit skip-able intro, specified first two projects, cream ending, six filters, right scroll index, snapped module dragging and undo are implemented.
+- Node backend adds server-side login, SQLite persistence and server-only GitHub publishing. Five Node tests and six Playwright tests exercise authentication, CSRF, restart persistence, conflicts, local and remote editing, cross-browser drafts, snap/undo and truthful queued/running status. GitHub calls in publisher tests are mocks, not real deployments.
+- The admin build compiles separately and is gated by the backend session API. A real hosting platform, HTTPS backend origin, administrator hash and persistent volume are not yet provided.
+- The public gear explicitly explains missing backend configuration until a real `VITE_CMS_URL` is supplied.
+- A server-side deployment is only considered successful after Actions success, HTTPS assets and exact deployed content matching the requested commit. Stale-content rejection is tested.
+- Production backend/container deployment, actual GitHub API permissions, repository visibility/Pages eligibility and public HTTPS remain unverified due to missing hosting configuration and the live proxy policy.
+
+- A plain static HTTP server with no SPA rewrite verified all 14 generated physical routes and reloads return HTTP 200; 24 responsive route checks passed.
+- The collapsing sticky header was explicitly tested around its threshold; reserving flow height removes scroll-anchor oscillation on desktop, 390px and 320px.

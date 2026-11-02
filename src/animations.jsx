@@ -65,15 +65,24 @@ export function PortfolioTitle() {
   const { reduced } = useContext(MotionPreferences);
   const { hero, profile } = useContent();
   const [ready, setReady] = useState(false),
-    [assembled, setAssembled] = useState(false);
+    [assembled, setAssembled] = useState(
+      !!sessionStorage.getItem("portfolio:intro:2027"),
+    );
   const image = useRef(null);
   useEffect(() => {
-    setAssembled(false);
+    setAssembled(!!sessionStorage.getItem("portfolio:intro:2027"));
     setReady(!!image.current?.complete);
   }, [hero.image]);
+  useEffect(() => {
+    const skip = () => setAssembled(true);
+    window.addEventListener("portfolio:skip-intro", skip);
+    return () => window.removeEventListener("portfolio:skip-intro", skip);
+  }, []);
+  const { scrollY } = useScroll();
+  const titleY = useTransform(scrollY, [0, 900], reduced ? [0, 0] : [0, -30]);
   const edges = [0, 21, 32, 41, 50, 59, 69, 77, 86, 100];
   return (
-    <h1 className="portfolio-title">
+    <motion.h1 className="portfolio-title" style={{ y: titleY }}>
       <span className="sr-only">
         Portfolio — {profile.name} {profile.englishName}
       </span>
@@ -118,7 +127,7 @@ export function PortfolioTitle() {
             />
           </motion.div>
         ))}
-    </h1>
+    </motion.h1>
   );
 }
 export function StudioClock() {
@@ -143,6 +152,11 @@ export function StudioClock() {
 export function HeroDecorations() {
   const ref = useRef(null);
   const active = useInView(ref);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const lineProgress = useTransform(scrollYProgress, [0, 1], [0.1, 1]);
   const { reduced } = useContext(MotionPreferences);
   return (
     <div
@@ -164,6 +178,13 @@ export function HeroDecorations() {
             delay: reduced ? 0 : 0.35,
             ease,
           }}
+        />
+        <motion.path
+          d="M 130 465 C 420 430, 900 480, 1080 400"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth=".35"
+          style={reduced ? { pathLength: 1 } : { pathLength: lineProgress }}
         />
         <path
           className="hero-star star-one"
@@ -213,11 +234,20 @@ export function useProjectMotion(ref, index) {
 function ReadingProgress() {
   const { scrollYProgress } = useScroll();
   return (
-    <motion.div
-      className="reading-progress"
-      aria-hidden="true"
-      style={{ scaleX: scrollYProgress }}
-    />
+    <>
+      <motion.div
+        className="reading-progress"
+        aria-hidden="true"
+        style={{ scaleX: scrollYProgress }}
+      />
+      <div className="side-progress" aria-hidden="true">
+        <span>SCROLL</span>
+        <div>
+          <motion.i style={{ scaleY: scrollYProgress }} />
+        </div>
+        <small>2027</small>
+      </div>
+    </>
   );
 }
 function CreativeCursor() {

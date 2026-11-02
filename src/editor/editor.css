@@ -363,3 +363,88 @@
     gap: 10px;
   }
 }
+.cms-login {
+  max-width: 470px;
+  margin: 70px auto;
+  padding: 30px;
+}
+.cms-login h1 {
+  font-size: 56px;
+  letter-spacing: -3px;
+  margin: 25px 0;
+}
+.cms-login p {
+  font-size: 13px;
+  line-height: 1.9;
+  margin: 15px 0;
+}
+.cms-login label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 20px 0;
+  font-size: 12px;
+}
+.cms-login input {
+  padding: 12px;
+  border: 1px solid #9babca;
+  background: white;
+  font: inherit;
+}
+.cms-login button {
+  padding: 12px 20px;
+  background: #193b85;
+  color: white;
+}
+.cms-login small {
+  display: block;
+  font-size: 10px;
+  margin-top: 20px;
+}
+.editor-history {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+}
+.editor-history button {
+  font-size: 10px;
+}
+.editor-publish-dialog [role="status"] {
+  font-size: 12px;
+  line-height: 1.8;
+  border-top: 1px solid #bbc4d3;
+  margin-top: 15px;
+}
+.module-drag-handle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: #193b85;
+  color: white;
+  padding: 8px 12px;
+  font-size: 10px;
+  cursor: grab;
+  touch-action: none;
+}
+.module-drag-handle:active {
+  cursor: grabbing;
+}
+.drag-enabled {
+  outline: 1px dashed #193b8560;
+  outline-offset: -2px;
+  background-image:
+    linear-gradient(#193b8505 1px, transparent 1px),
+    linear-gradient(90deg, #193b8505 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+.module-dragging,
+.module-dragging * {
+  cursor: grabbing !important;
+}
+.module-dragging .custom-cursor {
+  display: none;
+}

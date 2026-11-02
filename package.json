@@ -13,7 +13,10 @@
     "preview:editor": "vite preview --mode editor --outDir dist-editor --host 127.0.0.1 --port 5175",
     "content:import": "node scripts/import-content.mjs",
     "test": "node --test tests/*.test.mjs",
-    "test:browser": "playwright test"
+    "test:browser": "npm run build:admin && playwright test",
+    "build:admin": "vite build --mode admin --outDir dist-admin",
+    "cms:start": "node --use-env-proxy server/cms.mjs",
+    "cms:password": "node scripts/cms-password.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
@@ -27,6 +30,6 @@
     "vite": "^7.2.2"
   },
   "engines": {
-    "node": "^20.19.0 || >=22.12.0"
+    "node": ">=24.5.0"
   }
 }

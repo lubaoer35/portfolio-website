@@ -16,6 +16,8 @@ import { asset } from "../data";
 import { EditableText, useContent } from "../content/ContentProvider";
 import { getPath, validateContent } from "../content/schema";
 import "./editor.css";
+import { REMOTE_ADMIN_MODE } from "../content/ContentProvider";
+import { cmsPublish, cmsPublishStatus, cmsLogout } from "../content/cmsClient";
 function Field({
   label,
   value,
@@ -111,6 +113,8 @@ export default function EditorPanel() {
     [preview, setPreview] = useState(false),
     [publish, setPublish] = useState(false),
     [exported, setExported] = useState(false);
+  const [publishing, setPublishing] = useState(false),
+    [publication, setPublication] = useState(null);
   const fileRef = useRef(null),
     panelRef = useRef(null),
     buttonRef = useRef(null);
@@ -150,7 +154,7 @@ export default function EditorPanel() {
       number: String(c.projects.length + 1).padStart(2, "0"),
       name: "新项目（请编辑）",
       chinese: "请填写真实项目名称",
-      tags: ["Other"],
+      tags: [],
       year: null,
       pageRange: "自定义",
       accent: "#193b85",
@@ -224,7 +228,11 @@ export default function EditorPanel() {
         >
           <header>
             <div>
-              <small>LOCAL ADMIN / 本机管理员</small>
+              <small>
+                {REMOTE_ADMIN_MODE
+                  ? "AUTHENTICATED ADMIN / 已验证管理员"
+                  : "LOCAL ADMIN / 本机管理员"}
+              </small>
               <h2>Editorial desk.</h2>
             </div>
             <button aria-label="关闭编辑台" onClick={close}>
@@ -232,7 +240,9 @@ export default function EditorPanel() {
             </button>
           </header>
           <p className="editor-storage-note">
-            本机专用编辑构建。草稿保存在此浏览器，不会自动修改线上网站。
+            {REMOTE_ADMIN_MODE
+              ? "后台已验证身份，草稿持久化保存至服务器。发布需等待 GitHub 部署确认。"
+              : "本机专用编辑构建。草稿保存在此浏览器，不会自动修改线上网站。"}
           </p>
           <div className="editor-actions">
             <button onClick={() => c.save()}>SAVE</button>
@@ -266,6 +276,21 @@ export default function EditorPanel() {
               </button>
             </p>
           )}
+          <div className="editor-history">
+            <button disabled={!c.canUndo} onClick={c.undo}>
+              <Undo2 size={14} /> 撤销最近操作
+            </button>
+            {REMOTE_ADMIN_MODE && (
+              <button
+                onClick={async () => {
+                  await cmsLogout();
+                  location.reload();
+                }}
+              >
+                退出登录
+              </button>
+            )}
+          </div>
           <nav className="editor-tabs" aria-label="编辑台功能">
             {[
               ["profile", "个人信息"],
@@ -728,8 +753,8 @@ export default function EditorPanel() {
                   ["fontSize", "字号", 8, 120, 16],
                   ["width", "宽度 %", 50, 100, 100],
                   ["gap", "下方间距 px", 0, 100, 0],
-                  ["offsetX", "水平位置 px", -40, 40, 0],
-                  ["offsetY", "垂直位置 px", -40, 40, 0],
+                  ["offsetX", "水平位置 px", -160, 160, 0],
+                  ["offsetY", "垂直位置 px", -160, 160, 0],
                 ].map(([id, label, min, max, fallback]) => (
                   <Field
                     key={id}
@@ -799,8 +824,9 @@ export default function EditorPanel() {
               <>
                 <h3>备份、导入与发布</h3>
                 <p>
-                  所有 SAVE
-                  与自动保存仅发生在本机浏览器。跨设备同步需要后端、数据库或内容管理服务；当前没有配置这些服务。
+                  {REMOTE_ADMIN_MODE
+                    ? "当前已连接服务端持久化存储，可在其他已验证设备读取草稿。发布提交与网站上线是两个独立步骤。"
+                    : "所有 SAVE 与自动保存仅发生在本机浏览器；当前本机模式没有跨设备同步。"}
                 </p>
                 <button
                   className="editor-add"
@@ -869,14 +895,73 @@ export default function EditorPanel() {
             aria-labelledby="publish-title"
             className="editor-publish-dialog"
           >
-            <h2 id="publish-title">导出发布包</h2>
-            <p>
-              当前没有配置线上写入服务。此操作会下载包含内容和上传图片的 JSON
-              文件，<strong>不会自动发布到公网</strong>。
-            </p>
-            <p>
-              导出后运行内容导入命令，再构建、提交 GitHub 并检查 Pages 部署。
-            </p>
+            <h2 id="publish-title">
+              {REMOTE_ADMIN_MODE ? "发布到 GitHub Pages" : "导出发布包"}
+            </h2>
+            {REMOTE_ADMIN_MODE ? (
+              <>
+                <p>
+                  服务端会将已保存的后台草稿与上传图片提交到指定仓库
+                  main。提交成功仅表示部署排队，需检查 Actions 与 HTTPS
+                  验证结果。
+                </p>
+                <button
+                  disabled={publishing}
+                  onClick={async () => {
+                    setPublishing(true);
+                    try {
+                      if (await c.save()) setPublication(await cmsPublish());
+                    } catch (e) {
+                      c.setError(e.message);
+                    } finally {
+                      setPublishing(false);
+                    }
+                  }}
+                >
+                  {publishing ? "正在创建发布提交…" : "确认提交并部署"}
+                </button>
+                {publication && (
+                  <div role="status">
+                    <p>{publication.message || publication.status}</p>
+                    <p>状态：{publication.status}</p>
+                    <button
+                      onClick={async () => {
+                        try {
+                          setPublication({
+                            ...publication,
+                            ...(await cmsPublishStatus(publication.commit)),
+                          });
+                        } catch (e) {
+                          c.setError(e.message);
+                        }
+                      }}
+                    >
+                      检查部署结果
+                    </button>
+                    {publication.status === "success" && (
+                      <a
+                        href={publication.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        打开已验证的网站
+                      </a>
+                    )}
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <p>
+                  当前没有配置线上写入服务。此操作会下载包含内容和上传图片的
+                  JSON 文件，<strong>不会自动发布到公网</strong>。
+                </p>
+                <p>
+                  导出后运行内容导入命令，再构建、提交 GitHub 并检查 Pages
+                  部署。
+                </p>
+              </>
+            )}
             {exported && <p role="status">发布包已导出；线上网站尚未更新。</p>}
             <div>
               <button

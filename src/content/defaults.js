@@ -9,6 +9,7 @@ export const defaultContent = {
   version: 1,
   profile: {
     ...profile,
+    direction: "品牌视觉 / 创意视觉 / 插画设计 / UI设计 / IP设计 / 动态视觉",
     portrait: "/projects/identity/portrait.webp",
     intro:
       "一名关注品牌视觉、创意设计与数字媒体表达的设计师。擅长通过视觉叙事、图形语言与多媒介设计，将创意概念转化为具有识别度和感染力的视觉作品。",
@@ -35,17 +36,20 @@ export const defaultContent = {
     ],
   },
   projects,
-  featuredSlugs,
+  featuredSlugs: [
+    "vision-reconstructed",
+    "iqiyi-vision",
+    ...featuredSlugs.filter(
+      (s) => !["vision-reconstructed", "iqiyi-vision"].includes(s),
+    ),
+  ],
   sourceNote,
-  categories: categories
-    .map((id) => ({
-      id,
-      label:
-        { All: "ALL", UI: "UI / UX", IP: "IP DESIGN", Motion: "MOTION / 3D" }[
-          id
-        ] || id.toUpperCase(),
-    }))
-    .concat([{ id: "Other", label: "OTHER" }]),
+  categories: categories.map((id) => ({
+    id,
+    label:
+      { All: "ALL", UI: "UI DESIGN", IP: "IP DESIGN", Motion: "MOTION" }[id] ||
+      id.toUpperCase(),
+  })),
   hero: { image: "/projects/identity/portfolio-lettering.webp" },
   theme: {
     background: "#f5f3ec",
@@ -56,7 +60,3 @@ export const defaultContent = {
   },
   elementStyles: {},
 };
-// The existing source project text is kept intact; Other is an additional filter tag.
-defaultContent.projects = defaultContent.projects.map((p) =>
-  p.slug === "other-works" ? { ...p, tags: [...p.tags, "Other"] } : p,
-);
