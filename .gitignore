@@ -8,3 +8,8 @@ dist/
 
 __pycache__/
 *.pyc
+
+dist-editor/
+.content-backups/
+playwright-report/
+test-results/

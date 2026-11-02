@@ -7,15 +7,23 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "postbuild": "node scripts/postbuild.mjs"
+    "postbuild": "node scripts/postbuild.mjs",
+    "editor": "vite --mode editor --host 127.0.0.1 --port 5175",
+    "build:editor": "vite build --mode editor --outDir dist-editor",
+    "preview:editor": "vite preview --mode editor --outDir dist-editor --host 127.0.0.1 --port 5175",
+    "content:import": "node scripts/import-content.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:browser": "playwright test"
   },
   "dependencies": {
+    "lucide-react": "^0.468.0",
+    "motion": "^14.9.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router-dom": "^7.9.5",
-    "lucide-react": "^0.468.0"
+    "react-router-dom": "^7.9.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "vite": "^7.2.2"
   },
   "engines": {

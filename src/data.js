@@ -1,7 +1,9 @@
 // All project text is transcribed or condensed from the supplied 54-page PDF.
 // Years are shown only where explicitly visible; brand names do not imply a commission.
 export const asset = (path) =>
-  `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+  path.startsWith("data:image/")
+    ? path
+    : `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 export const profile = {
   name: "吕宝儿",
   englishName: "LV BAO ER",
