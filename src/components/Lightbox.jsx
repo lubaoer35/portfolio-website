@@ -8,6 +8,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { asset } from "../data";
+import { fullImageSource } from "../imageSources";
 export default function Lightbox({ pages, index, setIndex }) {
   const ref = useRef(null);
   const [zoom, setZoom] = useState(false);
@@ -65,7 +66,7 @@ export default function Lightbox({ pages, index, setIndex }) {
           {current && (
             <a
               className="icon-button"
-              href={asset(current.src)}
+              href={asset(fullImageSource(current.src))}
               target="_blank"
               rel="noreferrer"
               aria-label="在新窗口查看原图"
@@ -83,7 +84,7 @@ export default function Lightbox({ pages, index, setIndex }) {
         </div>
       </div>
       <div className={`lightbox-view ${zoom ? "zoomed" : ""}`}>
-        {current && <img src={asset(current.src)} alt={current.title} />}
+        {current && <img src={asset(fullImageSource(current.src))} alt={current.title} />}
       </div>
       <div className="lightbox-controls">
         <button onClick={() => change(-1)}>

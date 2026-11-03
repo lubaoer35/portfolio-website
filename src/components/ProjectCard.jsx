@@ -3,14 +3,14 @@ import { Link, useLocation } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "motion/react";
 import { asset } from "../data";
+import { responsiveSources } from "../imageSources";
 import { useContent, EditableText } from "../content/ContentProvider";
 import { useProjectMotion } from "../animations";
 const MotionLink = motion.create(Link);
 function ProjectImage({ project: p, priority = false }) {
   return (
     <img
-      src={asset(p.coverSmall)}
-      srcSet={`${asset(p.coverSmall)} 960w, ${asset(p.cover)} 2400w`}
+      {...responsiveSources(p.cover, p.coverSmall, asset, 2400)}
       sizes="(max-width: 700px) 92vw, 48vw"
       alt={`${p.name}：${p.summary}`}
       loading={priority ? "eager" : "lazy"}

@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { asset } from "../data";
+import { responsiveSources } from "../imageSources";
 import { EditableText, useContent } from "../content/ContentProvider";
 import { useProjectMotion } from "../animations";
 const categoryNames = {
@@ -66,8 +67,7 @@ function FeaturedStory({ project: p, index }) {
           >
             <motion.div className="project-media" style={{ y: imageY }}>
               <img
-                src={asset(p.coverSmall)}
-                srcSet={`${asset(p.coverSmall)} 960w, ${asset(p.cover)} 2400w`}
+                {...responsiveSources(p.cover, p.coverSmall, asset, 2400)}
                 sizes="(max-width: 760px) 91vw, 68vw"
                 alt={`${p.name} — ${p.chinese}完整作品画面`}
                 loading={index < 2 ? "eager" : "lazy"}

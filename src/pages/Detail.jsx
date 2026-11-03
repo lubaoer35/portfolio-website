@@ -3,6 +3,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { ArrowUpRight, ArrowLeft, Maximize2 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { asset } from "../data";
+import { fullImageSource, responsiveSources } from "../imageSources";
 import { useContent, EditableText } from "../content/ContentProvider";
 import PdfLink from "../components/PdfLink";
 import Lightbox from "../components/Lightbox";
@@ -101,7 +102,7 @@ export default function Detail() {
         style={{ viewTransitionName: `project-${p.slug}` }}
       >
         <img
-          src={asset(p.cover)}
+          src={asset(fullImageSource(p.cover))}
           alt={`${p.name} 主视觉`}
           fetchPriority="high"
         />
@@ -196,8 +197,7 @@ export default function Detail() {
               aria-label={`放大：${page.title}`}
             >
               <img
-                src={asset(page.small)}
-                srcSet={`${asset(page.small)} 960w, ${asset(page.src)} 3200w`}
+                {...responsiveSources(page.src, page.small, asset)}
                 sizes="(max-width: 700px) 94vw, 90vw"
                 alt={`${p.name} — ${page.title}，原稿第 ${page.number} 页`}
                 loading="lazy"
