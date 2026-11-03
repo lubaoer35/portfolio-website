@@ -84,6 +84,14 @@ export default function ClawInteraction({ onOpenOriginal }) {
         <svg viewBox="0 0 2182.57 1227.69" aria-hidden="true">
           <defs><clipPath id="claw-bin"><rect width="2183" height="986" /></clipPath></defs>
           <Artwork name="background" />
+          <g className="claw-word" data-word="random" style={{ transformOrigin: "714px 178px" }}>
+            <Artwork name="word-random" />
+            <rect x="520" y="85" width="390" height="185" fill="transparent" />
+          </g>
+          <g className="claw-word" data-word="choose" style={{ transformOrigin: "1143px 446px" }}>
+            <Artwork name="word-choose" />
+            <rect x="905" y="355" width="480" height="180" fill="transparent" />
+          </g>
           <g clipPath="url(#claw-bin)">
             {pieces.filter((p) => p.id !== held && !collected.some((c) => c.id === p.id)).map((p) =>
               <g key={p.id}><Artwork name={p.id} /></g>)}

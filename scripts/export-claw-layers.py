@@ -21,9 +21,11 @@ for node in artwork.iter(ns+'image'):defs.append(deepcopy(node))
 # PDF has 12 vector drawing paths, in original paint order.
 paths=[n for n in artwork.iter(ns+'path')]
 assert len(paths)==12
-save('background',parts[1:9]+paths[3:8])
+save('background',paths[3:8])
+save('word-random',[parts[1],parts[8]])
+save('word-choose',parts[2:8])
 save('claw-left',[paths[0]])
 save('claw-right',[paths[8]])
 save('claw-hub',[paths[2]]+paths[9:12])
 for name,index in [('mouth',9),('eyes',11),('ears',13),('hair',14)]:save(name,[parts[index]])
-print('Exported original page 39 into 8 faithful SVG layers.')
+print('Exported original page 39 into faithful SVG layers with independently interactive titles.')

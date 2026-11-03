@@ -20,3 +20,16 @@
  .claw-piece-controls { gap:8px; }
  .claw-piece-controls button { flex:1 1 40%; padding:10px 8px; }
 }
+
+/* Original outlined PDF lettering responds only within its own word area. */
+.claw-word { transform-box:view-box; transition:transform .35s cubic-bezier(.2,.7,.2,1); }
+.claw-stage svg image { pointer-events:none; }
+.claw-word rect { pointer-events:all; }
+@media (hover:hover) and (pointer:fine) {
+ .claw-word:hover { transform:scale(1.14); }
+}
+.claw-stage:focus-visible .claw-word { transform:scale(1.08); }
+@media (prefers-reduced-motion:reduce) {
+ .claw-word { transition:none; }
+ .claw-word:hover,.claw-stage:focus-visible .claw-word { transform:none; }
+}
