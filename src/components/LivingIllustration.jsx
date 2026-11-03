@@ -5,27 +5,39 @@ import "./living.css";
 const vertex = `attribute vec2 position; varying vec2 uv; void main(){uv=(position+1.0)*0.5;gl_Position=vec4(position,0.0,1.0);}`;
 const fragment = `precision mediump float;
 uniform sampler2D artwork; uniform float time; varying vec2 uv;
-float area(vec2 p,vec2 center,vec2 radius){vec2 d=(p-center)/radius;return exp(-dot(d,d)*2.5);}
+// Compact masks are exactly zero outside their boundaries: surrounding artwork stays still.
+float ellipse(vec2 p,vec2 c,vec2 r){return 1.0-smoothstep(.72,1.0,length((p-c)/r));}
+float side(vec2 p,vec2 a,vec2 b){vec2 e=b-a;return (e.x*(p.y-a.y)-e.y*(p.x-a.x))/length(e);}
+float triangle(vec2 p,vec2 a,vec2 b,vec2 c){return smoothstep(0.0,.008,min(side(p,a,b),min(side(p,b,c),side(p,c,a))));}
+vec2 blink(vec2 p,vec2 c,vec2 r,float phase){
+ vec2 d=(p-c)/r;
+ float pulse=pow(max(0.0,cos(time*1.65+phase)),48.0);
+ float mask=1.0-smoothstep(.82,1.0,length(d));
+ // Compress the original iris to a horizontal slit; sample the original lid at closure.
+ float y=clamp(d.y/max(.025,1.0-pulse*.975),-1.0,1.0);
+ return vec2(0.0,(y-d.y)*r.y*mask);
+}
 void main(){
  vec2 p=vec2(uv.x,1.0-uv.y);float t=time;vec2 drift=vec2(0.0);
- // Only deform local regions of the original painting. No new artwork or colors.
- float river=area(p,vec2(.48,.75),vec2(.21,.27));
- drift.x+=river*(sin(p.y*105.0-t*1.1)*.0019+sin(p.y*54.0-t*.65)*.0012);
- drift.y+=river*sin(p.x*83.0+p.y*22.0-t*.8)*.0011;
- float wings=area(p,vec2(.18,.29),vec2(.18,.25));
- drift.x+=wings*sin(t*.85)*.0025;drift.y+=wings*sin(t*.85)*.0015;
- float flowers=area(p,vec2(.32,.24),vec2(.12,.23));
- drift.x+=flowers*sin(t*.67+.8)*.0028;
- float bloom=area(p,vec2(.73,.74),vec2(.14,.19));
- drift.x+=bloom*sin(t*.72+2.0)*.0022;drift.y+=bloom*cos(t*.72+2.0)*.0013;
- float leaves=area(p,vec2(.10,.88),vec2(.15,.22))+area(p,vec2(.91,.94),vec2(.14,.1));
- drift.x+=leaves*sin(t*.55+p.x*4.0)*.0026;
- float petal=area(p,vec2(.45,.57),vec2(.035,.065))+area(p,vec2(.56,.84),vec2(.055,.07));
- drift.x+=petal*sin(t*.8)*.003;drift.y+=petal*cos(t*.8)*.0025;
- // Protect the title and frame. The fox remains the calm focal point.
- float title=1.0-smoothstep(.18,.32,p.y);float protect=title*smoothstep(.30,.38,p.x)*(1.0-smoothstep(.58,.66,p.x));
- drift*=1.0-protect;
+ // Feather interiors only, with a fixed shoulder and stationary surroundings.
+ float wing=triangle(p,vec2(.003,.115),vec2(.139,.394),vec2(.003,.354));
+ wing+=triangle(p,vec2(.143,.361),vec2(.186,.158),vec2(.242,.148));
+ drift.y+=wing*sin(t*1.6)*.004;
+ // Separate pools avoid the banks, fox, flowers, fish, and floating petals.
+ float river=ellipse(p,vec2(.433,.448),vec2(.035,.020));
+ river+=ellipse(p,vec2(.448,.486),vec2(.041,.014));
+ river+=ellipse(p,vec2(.422,.692),vec2(.060,.023));
+ river+=ellipse(p,vec2(.469,.730),vec2(.043,.025));
+ river+=ellipse(p,vec2(.464,.790),vec2(.045,.029));
+ river+=ellipse(p,vec2(.403,.819),vec2(.040,.024));
+ river+=ellipse(p,vec2(.488,.839),vec2(.023,.026));
+ drift.x+=river*sin(p.y*170.0-t*1.4)*.0018;
+ drift.y+=river*sin(p.x*120.0-t*.9)*.0007;
+ // Both visible eyes of the fish. Bodies and fins never translate.
+ drift+=blink(p,vec2(.1125,.755),vec2(.009,.027),.6);
+ drift+=blink(p,vec2(.317,.801),vec2(.0078,.012),2.0);
  gl_FragColor=texture2D(artwork,uv+vec2(drift.x,-drift.y));
+
 }`;
 export default function LivingIllustration({ alt, priority = false }) {
   const ref=useRef(null), canvas=useRef(null), renderer=useRef(null);
