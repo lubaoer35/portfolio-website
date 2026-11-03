@@ -6,6 +6,11 @@
 .project-media > .living-artwork img { transform:none; }
 .project-card:hover .living-artwork { transform:none; }
 @media(prefers-reduced-motion:reduce) {
- .living-artwork > canvas { display:none; }
+
  .project-card:hover .living-artwork { transform:none; }
 }
+
+.living-artwork > canvas[hidden] { display:none; }
+.living-toggle { position:absolute; z-index:3; right:12px; bottom:12px; padding:8px 12px; border:1px solid #ffffff80; border-radius:20px; background:#183c35d9; color:white; font:500 12px/1.2 sans-serif; cursor:pointer; }
+.living-toggle:focus-visible { outline:3px solid #fff; outline-offset:3px; }
+.living-artwork[data-living="static"] > canvas { visibility:hidden; }

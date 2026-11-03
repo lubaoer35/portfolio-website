@@ -50,3 +50,37 @@ test('IQIYI preserves static original on mobile with reduced motion', async ({ p
   expect(await art.locator('img').evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
   await page.screenshot({ path: 'test-results/iqiyi-mobile.png', fullPage: true });
 });
+
+test('animation clock advances automatically and visitors can pause and play', async ({ page }) => {
+  await page.goto('/work/iqiyi-vision');
+  const art=page.locator('.living-artwork').first();
+  await art.scrollIntoViewIfNeeded();
+  await expect(art).toHaveAttribute('data-living','active');
+  const time=()=>art.locator('canvas').evaluate(c=>{const gl=c.getContext('webgl');return gl.getUniform(gl.getParameter(gl.CURRENT_PROGRAM),gl.getUniformLocation(gl.getParameter(gl.CURRENT_PROGRAM),'time'));});
+  const start=await time();
+  const before=await art.screenshot();
+  await page.waitForTimeout(900);
+  expect(await time()).toBeGreaterThan(start+.5);
+  expect((await art.screenshot()).equals(before)).toBe(false);
+  await art.getByRole('button',{name:'暂停作品动画'}).click();
+  await expect(art).toHaveAttribute('data-living','static');
+  const stopped=await time();await page.waitForTimeout(200);expect(await time()).toBe(stopped);
+  await art.getByRole('button',{name:'播放作品动画'}).click();
+  await expect(art).toHaveAttribute('data-living','active');
+});
+
+test('canvas fallback animates without WebGL, including explicit play in reduced motion', async ({ page }) => {
+  await page.addInitScript(()=>{
+    const original=HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext=function(type,...args){if(type==='webgl'||type==='webgl2')return null;return original.call(this,type,...args);};
+  });
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.goto('/work/iqiyi-vision');
+  const art=page.locator('.living-artwork').first();await art.scrollIntoViewIfNeeded();
+  await expect(art).toHaveAttribute('data-renderer','2d');
+  await expect(art).toHaveAttribute('data-living','static');
+  await art.getByRole('button',{name:'播放作品动画'}).click();
+  await expect(art).toHaveAttribute('data-living','active');
+  const pixels=()=>art.locator('canvas').last().evaluate(c=>{const d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;let sum=0;for(let i=0;i<d.length;i+=4)sum=(sum+((i%997)+1)*d[i])%2147483647;return sum;});
+  const first=await pixels();await page.waitForTimeout(600);expect(await pixels()).not.toBe(first);
+});
