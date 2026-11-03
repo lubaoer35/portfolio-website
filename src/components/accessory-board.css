@@ -1,0 +1,12 @@
+.accessory-board { position:relative; width:100%; background:white; overflow:visible; }
+.accessory-toolbar { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; padding:14px 18px; border-bottom:1px solid #e9e5ed; color:#4c4b63; font-size:13px; }
+.accessory-toolbar p { margin:0; }
+.accessory-toolbar p span { display:block; margin-top:5px; color:#7f7d90; font-size:11px; }
+.accessory-toolbar > div { display:flex; gap:8px; }
+.accessory-toolbar button { padding:8px 12px; border:1px solid #cbc7df; background:white; color:#535277; border-radius:4px; cursor:pointer; }
+.accessory-canvas { touch-action:none; display:block; width:100%; height:auto; overflow:visible; }
+.accessory-piece { cursor:grab; touch-action:none; user-select:none; outline:none; }
+.accessory-piece[data-held="true"] { cursor:grabbing; filter:drop-shadow(0 10px 10px #74708f44); }
+.accessory-piece:focus-visible { filter:drop-shadow(0 0 5px #354fa9); }
+.accessory-hit { stroke:none; }
+@media(max-width:600px) { .accessory-toolbar { padding:10px; font-size:12px; } .accessory-toolbar button { font-size:11px; padding:7px 9px; } }

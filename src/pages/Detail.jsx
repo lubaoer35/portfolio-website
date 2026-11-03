@@ -11,6 +11,7 @@ import NotFound from "./NotFound";
 import ClawInteraction from "../components/ClawInteraction";
 import ArtworkVideo from "../components/ArtworkVideo";
 import WindArtwork from "../components/WindArtwork";
+import AccessoryBoard from "../components/AccessoryBoard";
 export default function Detail() {
   const {
     profile,
@@ -200,6 +201,8 @@ export default function Detail() {
               <ClawInteraction onOpenOriginal={() => setIndex(i)} />
             ) : slug === "vision-reconstructed" && page.src === "/projects/vision-reconstructed/page-38.webp" ? (
               <WindArtwork title={page.title} onOpenOriginal={() => setIndex(i)} />
+            ) : slug === "free-in-the-wind" && page.src === "/projects/free-in-the-wind/page-19.webp" ? (
+              <AccessoryBoard onOpenOriginal={() => setIndex(i)} />
             ) : <button
               className="gallery-image"
               onClick={() => setIndex(i)}
