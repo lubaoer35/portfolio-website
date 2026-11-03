@@ -936,17 +936,25 @@ footer:before {
 }
 .story-index {
   display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
   justify-content: space-between;
-  gap: 20px;
+  gap: 10px 24px;
   padding: 0 0 17px;
   border-bottom: 1px solid var(--line);
   margin-bottom: 26px;
-  font-size: 11px;
-  letter-spacing: 1.2px;
+  font-size: 18px;
+  letter-spacing: 1.4px;
+  line-height: 1.7;
   color: #737c7b;
 }
 .story-index > span:first-child {
   color: var(--blue);
+  white-space: nowrap;
+}
+.story-index > span:last-child {
+  font-size: 14px;
+  letter-spacing: 0.6px;
 }
 .story-layout {
   display: grid;
@@ -1130,7 +1138,7 @@ footer:before {
     gap: 43px;
   }
   .story-index {
-    font-size: 11px;
+    font-size: 16px;
     letter-spacing: 0.4px;
     margin-bottom: 18px;
     padding-bottom: 12px;
@@ -1212,5 +1220,12 @@ footer:before {
   }
   .story-description h3 {
     font-size: 25.5px;
+  }
+}
+
+/* Keep the project index readable when categories wrap on a narrow screen. */
+@media (max-width: 700px) {
+  .story-index > span:last-child {
+    font-size: 13px;
   }
 }
