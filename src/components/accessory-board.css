@@ -8,5 +8,4 @@
 .accessory-piece { cursor:grab; touch-action:none; user-select:none; outline:none; }
 .accessory-piece[data-held="true"] { cursor:grabbing; filter:drop-shadow(0 10px 10px #74708f44); }
 .accessory-piece:focus-visible { filter:drop-shadow(0 0 5px #354fa9); }
-.accessory-hit { stroke:none; }
 @media(max-width:600px) { .accessory-toolbar { padding:10px; font-size:12px; } .accessory-toolbar button { font-size:11px; padding:7px 9px; } }

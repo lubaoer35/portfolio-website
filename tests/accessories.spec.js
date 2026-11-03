@@ -4,7 +4,11 @@ test('original accessories can be dragged out of the basket, dropped, adjusted a
   await page.goto('/work/free-in-the-wind');
   const board=page.locator('.accessory-board');
   await board.scrollIntoViewIfNeeded();
-  await expect(board.locator('[data-piece]')).toHaveCount(6);
+  await expect(board).toHaveAttribute('data-ready','true');
+  await expect(board.locator('[data-piece]')).toHaveCount(5);
+  const files=await board.locator('[data-piece] image').evaluateAll(nodes=>nodes.map(n=>n.href.baseVal));
+  expect(files.every(file=>/interactive\/chloe-accessories\/[a-z-]+\.png$/.test(file))).toBe(true);
+  await expect(board.locator('path, clipPath')).toHaveCount(0);
   const stage=board.locator('.accessory-canvas');
   const rect=await stage.boundingBox();
   const at=(x,y)=>({x:rect.x+x*rect.width/2048,y:rect.y+y*rect.height/1152});
@@ -18,6 +22,10 @@ test('original accessories can be dragged out of the basket, dropped, adjusted a
   await expect(board.getByRole('status')).toContainText('已放下粉色海螺');
   expect(await piece.getAttribute('transform')).not.toBe(before);
   const moved=await piece.getAttribute('transform');
+  const corner=at(1311,599);
+  await page.mouse.move(corner.x,corner.y);await page.mouse.down();
+  await expect(board).toHaveAttribute('data-dragging','');
+  await page.mouse.up();
   await page.waitForTimeout(250);expect(await piece.getAttribute('transform')).toBe(moved);
   await piece.focus();await piece.press('ArrowRight');expect(await piece.getAttribute('transform')).not.toBe(moved);
   await piece.press('Home');await expect(piece).toHaveAttribute('transform',before);
@@ -37,6 +45,7 @@ test('touch dragging works on a narrow screen with reduced motion', async ({ bro
   const page=await context.newPage();
   await page.goto('http://127.0.0.1:5180/work/free-in-the-wind');
   const board=page.locator('.accessory-board');await board.scrollIntoViewIfNeeded();
+  await expect(board).toHaveAttribute('data-ready','true');
   const rect=await board.locator('.accessory-canvas').boundingBox();
   const x=rect.x+425*rect.width/2048,y=rect.y+255*rect.height/1152;
   const client=await context.newCDPSession(page);
@@ -52,12 +61,13 @@ test('touch dragging works on a narrow screen with reduced motion', async ({ bro
   await context.close();
 });
 
-test('all six accessories lift independently and can be placed across the entire artwork', async ({ page }) => {
+test('all five PNG accessories lift independently and can be placed across the entire artwork', async ({ page }) => {
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.goto('/work/free-in-the-wind');
   const board=page.locator('.accessory-board');await board.scrollIntoViewIfNeeded();
+  await expect(board).toHaveAttribute('data-ready','true');
   const r=await board.locator('.accessory-canvas').boundingBox();
-  const samples=[['clip',139,200],['conch',425,255],['tag',600,420],['fish',760,205],['blue-shell',313,590],['shell',940,560]];
+  const samples=[['conch',425,255],['tag',600,420],['fish',765,205],['blue-shell',313,590],['shell',940,560]];
   for(const [id,x,y] of samples){
     const piece=board.locator(`[data-piece="${id}"]`),before=await piece.getAttribute('transform');
     await page.mouse.move(r.x+x*r.width/2048,r.y+y*r.height/1152);await page.mouse.down();
