@@ -6,6 +6,7 @@ import { asset } from "../data";
 import { responsiveSources } from "../imageSources";
 import { EditableText, useContent } from "../content/ContentProvider";
 import { useProjectMotion } from "../animations";
+import LivingIllustration from "../components/LivingIllustration";
 const categoryNames = {
   "Brand Visual": "品牌视觉",
   UI: "界面设计",
@@ -66,13 +67,15 @@ function FeaturedStory({ project: p, index }) {
             }}
           >
             <motion.div className="project-media" style={{ y: imageY }}>
-              <img
+              {p.cover === "/projects/iqiyi-vision/cover.webp" ? (
+                <LivingIllustration alt={`${p.name} — ${p.chinese}`} priority={index < 2} />
+              ) : <img
                 {...responsiveSources(p.cover, p.coverSmall, asset, 2400)}
                 sizes="(max-width: 760px) 91vw, 68vw"
                 alt={`${p.name} — ${p.chinese}完整作品画面`}
                 loading={index < 2 ? "eager" : "lazy"}
                 decoding="async"
-              />
+              />}
             </motion.div>
             <span className="curated-view">
               查看作品 <ArrowUpRight size={16} />

@@ -6,8 +6,11 @@ import { asset } from "../data";
 import { responsiveSources } from "../imageSources";
 import { useContent, EditableText } from "../content/ContentProvider";
 import { useProjectMotion } from "../animations";
+import LivingIllustration from "./LivingIllustration";
 const MotionLink = motion.create(Link);
 function ProjectImage({ project: p, priority = false }) {
+  if (p.cover === "/projects/iqiyi-vision/cover.webp")
+    return <LivingIllustration alt={`${p.name}：${p.summary}`} priority={priority} />;
   return (
     <img
       {...responsiveSources(p.cover, p.coverSmall, asset, 2400)}
