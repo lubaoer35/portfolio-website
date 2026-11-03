@@ -69,6 +69,10 @@ export function PortfolioTitle() {
       !!sessionStorage.getItem("portfolio:intro:2027"),
     );
   const image = useRef(null);
+  // Upgrade only the original cover; administrator-uploaded artwork stays unchanged.
+  const letteringSource = hero.image === "/projects/identity/portfolio-lettering.webp"
+    ? "/identity/portfolio-lettering-vector.svg"
+    : hero.image;
   useEffect(() => {
     setAssembled(!!sessionStorage.getItem("portfolio:intro:2027"));
     setReady(!!image.current?.complete);
@@ -88,7 +92,7 @@ export function PortfolioTitle() {
       </span>
       <motion.img
         ref={image}
-        src={asset(hero.image)}
+        src={asset(letteringSource)}
         alt=""
         fetchPriority="high"
         width="2134"
@@ -119,7 +123,7 @@ export function PortfolioTitle() {
             }}
           >
             <img
-              src={asset(hero.image)}
+              src={asset(letteringSource)}
               alt=""
               aria-hidden="true"
               width="2134"
