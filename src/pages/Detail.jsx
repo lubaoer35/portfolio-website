@@ -8,6 +8,7 @@ import { useContent, EditableText } from "../content/ContentProvider";
 import PdfLink from "../components/PdfLink";
 import Lightbox from "../components/Lightbox";
 import NotFound from "./NotFound";
+import ClawInteraction from "../components/ClawInteraction";
 export default function Detail() {
   const {
     profile,
@@ -191,7 +192,9 @@ export default function Detail() {
                   : "新增作品图片"}
               </span>
             </figcaption>
-            <button
+            {slug === "vision-reconstructed" && page.src === "/projects/vision-reconstructed/page-39.webp" ? (
+              <ClawInteraction onOpenOriginal={() => setIndex(i)} />
+            ) : <button
               className="gallery-image"
               onClick={() => setIndex(i)}
               aria-label={`放大：${page.title}`}
@@ -208,7 +211,7 @@ export default function Detail() {
               <span className="zoom-label">
                 <Maximize2 size={15} /> VIEW FULL SIZE
               </span>
-            </button>
+            </button>}
           </motion.figure>
         ))}
       </div>

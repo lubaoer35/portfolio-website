@@ -1,0 +1,22 @@
+.claw-experience { width:100%; background:#fff; border:1px solid var(--line); }
+.claw-instructions { display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; padding:18px 24px; color:var(--blue); font-size:14px; line-height:1.7; border-bottom:1px solid var(--line); }
+.claw-stage { display:block; width:100%; padding:0; overflow:hidden; background:#fff; cursor:pointer; touch-action:manipulation; }
+.claw-stage:disabled { cursor:default; }
+.claw-stage svg { display:block; width:100%; height:auto; }
+.claw-stage:focus-visible { outline-offset:-4px; }
+.claw-toolbar { padding:20px 24px; background:var(--paper); border-top:1px solid var(--line); }
+.claw-toolbar p { font-size:16px; color:var(--blue); line-height:1.8; }
+.claw-toolbar p span { white-space:nowrap; margin-left:8px; }
+.claw-piece-controls { display:flex; flex-wrap:wrap; gap:10px; margin:16px 0; }
+.claw-piece-controls button { padding:10px 16px; border:1px solid var(--blue); font-size:14px; min-height:44px; transition:background .2s,color .2s; }
+.claw-piece-controls button:hover:not(:disabled) { background:var(--blue); color:white; }
+.claw-toolbar button:disabled { opacity:.4; cursor:default; }
+.claw-actions { display:flex; flex-wrap:wrap; gap:12px 28px; }
+.claw-actions button { padding:8px 0; min-height:44px; font-size:14px; text-decoration:underline; text-underline-offset:5px; }
+@media(max-width:700px) {
+ .claw-instructions,.claw-toolbar { padding:14px; }
+ .claw-instructions { font-size:12px; }
+ .claw-toolbar p { font-size:14px; }
+ .claw-piece-controls { gap:8px; }
+ .claw-piece-controls button { flex:1 1 40%; padding:10px 8px; }
+}
