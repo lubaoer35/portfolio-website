@@ -1,0 +1,19 @@
+.gallery-image.wind-artwork { display:block; width:100%; padding:0; overflow:hidden; background:#fff; }
+.wind-artwork > svg { display:block; width:100%; height:auto; }
+.wind-piece { transform-box:view-box; animation-play-state:paused; }
+.wind-mouth { transform-origin:1685px 416px; animation:paper-breeze-left 6.8s ease-in-out infinite; animation-play-state:paused; }
+.wind-eyes { transform-origin:1870px 407px; animation:paper-breeze-right 8.1s ease-in-out infinite; animation-play-state:paused; }
+.wind-artwork[data-wind="active"] .wind-piece { animation-play-state:running; }
+@keyframes paper-breeze-left {
+  0%,100% { transform:rotate(0deg); }
+  25% { transform:rotate(1.8deg); }
+  65% { transform:rotate(-1.4deg); }
+}
+@keyframes paper-breeze-right {
+  0%,100% { transform:rotate(0deg); }
+  35% { transform:rotate(-2deg); }
+  75% { transform:rotate(1.6deg); }
+}
+@media(prefers-reduced-motion:reduce) {
+ .wind-artwork .wind-piece { animation:none; transform:none; }
+}

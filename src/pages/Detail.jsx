@@ -9,6 +9,7 @@ import PdfLink from "../components/PdfLink";
 import Lightbox from "../components/Lightbox";
 import NotFound from "./NotFound";
 import ClawInteraction from "../components/ClawInteraction";
+import WindArtwork from "../components/WindArtwork";
 export default function Detail() {
   const {
     profile,
@@ -194,6 +195,8 @@ export default function Detail() {
             </figcaption>
             {slug === "vision-reconstructed" && page.src === "/projects/vision-reconstructed/page-39.webp" ? (
               <ClawInteraction onOpenOriginal={() => setIndex(i)} />
+            ) : slug === "vision-reconstructed" && page.src === "/projects/vision-reconstructed/page-38.webp" ? (
+              <WindArtwork title={page.title} onOpenOriginal={() => setIndex(i)} />
             ) : <button
               className="gallery-image"
               onClick={() => setIndex(i)}
