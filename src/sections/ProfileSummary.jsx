@@ -24,10 +24,12 @@ export default function ProfileSummary() {
               height="724"
               loading="lazy"
             />
-            <span>THE PERSON BEHIND THE WORK</span>
+            <span>THE PERSON BEHIND THE WORK / 作品背后的我</span>
           </div>
           <div className="home-profile-copy">
-            <span className="eyebrow">02 / ABOUT THE DESIGNER</span>
+            <span className="eyebrow">
+              02 / ABOUT THE DESIGNER · 关于设计师
+            </span>
             <h2>
               <EditableText path="profile.name" />
               <small>
@@ -48,11 +50,12 @@ export default function ProfileSummary() {
         </div>
         <div className="home-practice">
           <div>
-            <span className="eyebrow">TOOLS / SOFTWARE</span>
+            <span className="eyebrow">TOOLS / SOFTWARE · 软件与技能</span>
             <h3>
               Ideas into
               <br />
               <em>visual language.</em>
+              <span className="heading-cn">创作工具与视觉表达</span>
             </h3>
           </div>
           <ul>

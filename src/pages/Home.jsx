@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, ArrowDown } from "lucide-react";
 import { useContent, EditableText } from "../content/ContentProvider";
-import ProjectCard from "../components/ProjectCard";
+import FeaturedGallery from "../sections/FeaturedGallery";
 import { PortfolioTitle, HeroDecorations, StudioClock } from "../animations";
 import DraggableModule from "../editor/DraggableModule";
 import Intro from "../components/Intro";
@@ -27,11 +27,11 @@ export default function Home() {
           <span className="eyebrow">
             A PERSONAL COLLECTION
             <br />
-            OF VISUAL EXPLORATIONS
+            OF VISUAL EXPLORATIONS · 视觉创作集
           </span>
           <span className="hero-edition">
             <EditableText path="profile.graduation" />
-            <small>GRADUATE PORTFOLIO</small>
+            <small>GRADUATE PORTFOLIO / 毕业作品集</small>
             <StudioClock />
           </span>
         </div>
@@ -53,7 +53,7 @@ export default function Home() {
               <span>品牌视觉设计 · 创意视觉设计</span>
             </p>
             <a className="scroll-link" href="#selected">
-              Explore the work{" "}
+              Explore the work · 浏览作品{" "}
               <span>
                 <ArrowDown size={18} />
               </span>
@@ -61,37 +61,29 @@ export default function Home() {
           </div>
         </DraggableModule>
         <div className="hero-foot">
-          <span>01 / SELECTED WORKS</span>
-          <span>SCROLL TO EXPLORE ↓</span>
+          <span>01 / SELECTED WORKS · 精选作品</span>
+          <span>SCROLL TO EXPLORE · 向下探索 ↓</span>
         </div>
       </section>
       <section id="selected" className="work-section">
-        <div className="section-heading">
-          <div>
-            <div className="eyebrow">01 / SELECTED PROJECTS</div>
+        <header className="selected-heading">
+          <div className="selected-title-line">
+            <span className="selected-section-no">01</span>
             <h2>
-              Selected <em>works.</em>
-              <sup>({String(featuredSlugs.length).padStart(2, "0")})</sup>
+              Selected works <span>精选作品</span>
             </h2>
+            <span className="selected-count">
+              {String(featuredSlugs.length).padStart(2, "0")}{" "}
+              <small>PROJECTS / 个项目</small>
+            </span>
           </div>
-          <p>
-            从想法到图像，
-            <br />
-            探索视觉表达的更多可能。
-          </p>
-        </div>
-        <div className="project-grid editorial-grid exhibition-grid">
-          {featuredSlugs.map((slug, index) => (
-            <ProjectCard
-              key={slug}
-              project={projects.find((p) => p.slug === slug)}
-              index={index}
-            />
-          ))}
-        </div>
+          <p>从视觉概念到完整表达，以不同媒介呈现创意的更多可能。</p>
+        </header>
+        <FeaturedGallery />
         <div className="work-bottom">
           <span className="eyebrow">
-            BRAND / UI / ILLUSTRATION / IP / MOTION
+            BRAND / UI / ILLUSTRATION / IP / MOTION · 品牌 / 界面 / 插画 / IP /
+            动效
           </span>
           <Link className="text-link" to="/work">
             View all projects · 全部作品 <ArrowUpRight size={19} />

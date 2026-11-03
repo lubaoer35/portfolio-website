@@ -19,7 +19,7 @@ export default function Footer() {
     <footer id="contact">
       <HeroDecorations />
       <div className="footer-top">
-        <span className="eyebrow">THANK YOU FOR WATCHING</span>
+        <span className="eyebrow">THANK YOU FOR WATCHING / 感谢观看</span>
         <span className="eyebrow">{profile.graduation} · 求职作品集</span>
       </div>
       <a className="footer-cta" href={`mailto:${profile.email}`}>

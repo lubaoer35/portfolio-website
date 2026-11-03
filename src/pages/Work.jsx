@@ -18,7 +18,7 @@ export default function Work() {
       <div className="page-kicker">
         <span className="eyebrow">PROJECT INDEX / 作品索引</span>
         <span className="eyebrow">
-          {String(projects.length).padStart(2, "0")} SELECTED PROJECTS
+          {String(projects.length).padStart(2, "0")} SELECTED PROJECTS / 个项目
         </span>
       </div>
       <h1 className="page-title">

@@ -18,7 +18,7 @@ export default function About() {
     <section className="page-section about-page">
       <div className="page-kicker">
         <span className="eyebrow">ABOUT THE DESIGNER / 关于我</span>
-        <span className="eyebrow">2027 GRADUATE</span>
+        <span className="eyebrow">2027 GRADUATE / 2027届</span>
       </div>
       <h1 className="page-title">
         Hello, I’m
@@ -74,6 +74,7 @@ export default function About() {
             <span className="eyebrow">RECOGNITION / 获奖情况</span>
             <h2>
               Selected <em>recognition.</em>
+              <span className="heading-cn">精选获奖</span>
             </h2>
           </div>
           <div className="award-total">
@@ -118,6 +119,7 @@ export default function About() {
             My creative
             <br />
             <em>toolkit.</em>
+            <span className="heading-cn">软件技能</span>
           </h2>
         </div>
         <ul>
@@ -134,6 +136,7 @@ export default function About() {
         <span className="eyebrow">JOURNEY / 学习与方向</span>
         <h2>
           A practice <em>in progress.</em>
+          <span className="heading-cn">学习与探索</span>
         </h2>
         <ol>
           {profile.timeline.map((item, i) => (

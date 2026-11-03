@@ -160,6 +160,7 @@ export default function Detail() {
       <div className="gallery-heading">
         <h2>
           The visual <em>story.</em>
+          <span className="heading-cn">视觉呈现</span>
         </h2>
         <p>
           完整保留原稿构图与配色
