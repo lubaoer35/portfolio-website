@@ -27,7 +27,7 @@ for(const viewport of [{width:1440,height:1000},{width:390,height:844}]){
     await page.keyboard.press('ArrowRight');
     await expect(page.locator('.lightbox-view img')).toHaveAttribute('src','/enhanced/red-bull/page-31.svg');
     await page.keyboard.press('Escape');
-    await page.locator('.case-gallery > figure').last().getByRole('button').click();
+    await page.locator('.case-gallery > figure').last().locator('.qr-artwork-original').click();
     await expect(page.locator('.lightbox-view img')).toHaveAttribute('src','/enhanced/red-bull/page-33.svg');
   });
 }

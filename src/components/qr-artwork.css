@@ -1,0 +1,8 @@
+.qr-artwork { position:relative; overflow:visible; }
+.qr-artwork-original { display:block; position:relative; padding:0; border:0; width:100%; background:transparent; cursor:zoom-in; }
+.qr-artwork-original > img { display:block; width:100%; height:auto; }
+.qr-hotspot { position:absolute; z-index:3; padding:0; border:0; min-width:0; min-height:0; background:white; line-height:0; cursor:zoom-in; touch-action:manipulation; transform-origin:center; transform:scale(1); transition:transform .2s ease,box-shadow .2s ease; }
+.qr-crop { display:block; width:100%; height:100%; overflow:hidden; pointer-events:none; image-rendering:pixelated; }
+.qr-hotspot[aria-expanded="true"] { z-index:5; transform:scale(var(--qr-zoom)); box-shadow:0 0 0 4px white,0 4px 14px #0004; cursor:zoom-out; }
+.qr-hotspot:focus-visible { outline:2px solid #193b85; outline-offset:5px; }
+@media(prefers-reduced-motion:reduce) { .qr-hotspot { transition:none; } }

@@ -14,6 +14,7 @@ import WindArtwork from "../components/WindArtwork";
 import AccessoryBoard from "../components/AccessoryBoard";
 import ExtendedGallery from "../components/ExtendedGallery";
 import H5LongArtwork from "../components/H5LongArtwork";
+import QrArtwork from "../components/QrArtwork";
 export default function Detail() {
   const {
     profile,
@@ -204,6 +205,8 @@ export default function Detail() {
             </figcaption>
             {joinH5 && i === h5Indexes[0] ? (
               <H5LongArtwork pages={h5Indexes.map(index => p.pages[index])} onOpenOriginal={() => setIndex(i)} />
+            ) : slug === "red-bull" && page.src === "/projects/red-bull/page-33.webp" ? (
+              <QrArtwork title={page.title} onOpenOriginal={() => setIndex(i)} />
             ) : slug === "vision-reconstructed" && page.src === "/projects/vision-reconstructed/page-39.webp" ? (
               <ClawInteraction onOpenOriginal={() => setIndex(i)} />
             ) : slug === "vision-reconstructed" && page.src === "/projects/vision-reconstructed/page-38.webp" ? (
