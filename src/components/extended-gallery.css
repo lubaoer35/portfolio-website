@@ -1,0 +1,11 @@
+.extended-gallery { width:100%; background:#fff; }
+.extended-stage { display:block; width:100%; height:auto; touch-action:pan-y; user-select:none; }
+.extended-design { cursor:grab; outline:none; }
+.extended-design:active { cursor:grabbing; }
+.extended-design:focus-visible .extended-panel { outline:3px solid #254683; outline-offset:4px; }
+.extended-controls { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:10px; padding:14px; border-top:1px solid #edeae4; }
+.extended-controls button { border:1px solid #d4d0c7; background:#fff; color:#3e3d3a; padding:9px 12px; font-size:12px; cursor:pointer; border-radius:3px; }
+.extended-choices { display:flex; gap:5px; }
+.extended-choices button[aria-pressed="true"] { background:#f1eee8; border-color:#7d796f; }
+.extended-controls button:focus-visible { outline:2px solid #254683; outline-offset:3px; }
+@media(max-width:600px) { .extended-controls { gap:7px; padding:10px 5px; } .extended-controls button { padding:8px; font-size:11px; } .extended-original { flex-basis:100%; max-width:120px; } }
