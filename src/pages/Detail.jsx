@@ -13,6 +13,7 @@ import ArtworkVideo from "../components/ArtworkVideo";
 import WindArtwork from "../components/WindArtwork";
 import AccessoryBoard from "../components/AccessoryBoard";
 import ExtendedGallery from "../components/ExtendedGallery";
+import H5LongArtwork from "../components/H5LongArtwork";
 export default function Detail() {
   const {
     profile,
@@ -63,6 +64,9 @@ export default function Detail() {
   const [index, setIndex] = useState(null);
   useEffect(() => setIndex(null), [slug, section]);
   if (!p) return <NotFound />;
+  const h5Indexes = [30, 31, 32].map(number => p.pages.findIndex(page => page.src === `/projects/red-bull/page-${number}.webp`));
+  const joinH5 = slug === "red-bull" && h5Indexes[0] >= 0 && h5Indexes[1] === h5Indexes[0] + 1 && h5Indexes[2] === h5Indexes[1] + 1;
+  const galleryEntries = p.pages.map((page, index) => ({ page, index })).filter(({index}) => !joinH5 || !h5Indexes.slice(1).includes(index));
   const next = projects[(projectIndex + 1) % projects.length];
   const previous =
     projects[(projectIndex - 1 + projects.length) % projects.length];
@@ -177,7 +181,7 @@ export default function Detail() {
         </p>
       </div>
       <div className="case-gallery">
-        {p.pages.map((page, i) => (
+        {galleryEntries.map(({page, index: i}, displayIndex) => (
           <motion.figure
             key={page.src + "-" + i}
             initial={reduced ? false : { opacity: 0, y: 25 }}
@@ -190,15 +194,17 @@ export default function Detail() {
           >
             <figcaption>
               <span>
-                {String(i + 1).padStart(2, "0")} / {page.title}
+                {String(displayIndex + 1).padStart(2, "0")} / {joinH5 && i === h5Indexes[0] ? "H5 完整长图" : page.title}
               </span>
               <span>
-                {page.number
+                {joinH5 && i === h5Indexes[0] ? "PDF P.30–32" : page.number
                   ? `PDF P.${String(page.number).padStart(2, "0")}`
                   : "新增作品图片"}
               </span>
             </figcaption>
-            {slug === "vision-reconstructed" && page.src === "/projects/vision-reconstructed/page-39.webp" ? (
+            {joinH5 && i === h5Indexes[0] ? (
+              <H5LongArtwork pages={h5Indexes.map(index => p.pages[index])} onOpenOriginal={() => setIndex(i)} />
+            ) : slug === "vision-reconstructed" && page.src === "/projects/vision-reconstructed/page-39.webp" ? (
               <ClawInteraction onOpenOriginal={() => setIndex(i)} />
             ) : slug === "vision-reconstructed" && page.src === "/projects/vision-reconstructed/page-38.webp" ? (
               <WindArtwork title={page.title} onOpenOriginal={() => setIndex(i)} />

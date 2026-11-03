@@ -1,0 +1,3 @@
+.h5-long-artwork { display:block; padding:0; border:0; margin:0; line-height:0; }
+.h5-long-artwork > img { display:block; width:100%; height:auto; padding:0; margin:0; border:0; }
+.h5-long-artwork .zoom-label { line-height:1.2; }
