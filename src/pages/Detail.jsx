@@ -9,7 +9,7 @@ import PdfLink from "../components/PdfLink";
 import Lightbox from "../components/Lightbox";
 import NotFound from "./NotFound";
 import ClawInteraction from "../components/ClawInteraction";
-import LivingIllustration from "../components/LivingIllustration";
+import ArtworkVideo from "../components/ArtworkVideo";
 import WindArtwork from "../components/WindArtwork";
 export default function Detail() {
   const {
@@ -105,7 +105,7 @@ export default function Detail() {
         style={{ viewTransitionName: `project-${p.slug}` }}
       >
         {p.cover === "/projects/iqiyi-vision/cover.webp" ? (
-          <LivingIllustration alt={`${p.name} 主视觉`} priority />
+          <ArtworkVideo alt={`${p.name} 主视觉视频`} />
         ) : <img
           src={asset(fullImageSource(p.cover))}
           alt={`${p.name} 主视觉`}

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('IQIYI animates only wing interiors, fish eyes and water using the original image', async ({ page }) => {
-  await page.goto('/work/iqiyi-vision');
+  await page.goto('/work');
   const art = page.locator('.living-artwork').first();
   await art.scrollIntoViewIfNeeded();
   await expect(art).toHaveAttribute('data-living', 'active');
@@ -42,7 +42,7 @@ test('IQIYI animates only wing interiors, fish eyes and water using the original
 test('IQIYI preserves static original on mobile with reduced motion', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/work/iqiyi-vision');
+  await page.goto('/work');
   const art = page.locator('.living-artwork').first();
   await art.scrollIntoViewIfNeeded();
   await expect(art).toHaveAttribute('data-living', 'static');
@@ -52,7 +52,7 @@ test('IQIYI preserves static original on mobile with reduced motion', async ({ p
 });
 
 test('animation clock advances automatically and visitors can pause and play', async ({ page }) => {
-  await page.goto('/work/iqiyi-vision');
+  await page.goto('/work');
   const art=page.locator('.living-artwork').first();
   await art.scrollIntoViewIfNeeded();
   await expect(art).toHaveAttribute('data-living','active');
@@ -75,7 +75,7 @@ test('canvas fallback animates without WebGL, including explicit play in reduced
     HTMLCanvasElement.prototype.getContext=function(type,...args){if(type==='webgl'||type==='webgl2')return null;return original.call(this,type,...args);};
   });
   await page.emulateMedia({reducedMotion:'reduce'});
-  await page.goto('/work/iqiyi-vision');
+  await page.goto('/work');
   const art=page.locator('.living-artwork').first();await art.scrollIntoViewIfNeeded();
   await expect(art).toHaveAttribute('data-renderer','2d');
   await expect(art).toHaveAttribute('data-living','static');

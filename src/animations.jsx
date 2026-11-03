@@ -410,6 +410,8 @@ function RouteTransitions({ children }) {
   };
   const follow = async (e) => {
     if (e.defaultPrevented || !isPlainClick(e)) return;
+    // Embedded media controls handle their own clicks, including inside project links.
+    if (e.target.closest("button, input, select, textarea")) return;
     const link = e.target.closest("a[href]");
     if (
       !link ||
