@@ -65,16 +65,14 @@ export function PortfolioTitle() {
   const { reduced } = useContext(MotionPreferences);
   const { hero, profile } = useContent();
   const [ready, setReady] = useState(false),
-    [assembled, setAssembled] = useState(
-      !!sessionStorage.getItem("portfolio:intro:2027"),
-    );
+    [assembled, setAssembled] = useState(false);
   const image = useRef(null);
   // Upgrade only the original cover; administrator-uploaded artwork stays unchanged.
   const letteringSource = hero.image === "/projects/identity/portfolio-lettering.webp"
     ? "/identity/portfolio-lettering-vector.svg"
     : hero.image;
   useEffect(() => {
-    setAssembled(!!sessionStorage.getItem("portfolio:intro:2027"));
+    setAssembled(false);
     setReady(!!image.current?.complete);
   }, [hero.image]);
   useEffect(() => {
@@ -85,6 +83,10 @@ export function PortfolioTitle() {
   const { scrollY } = useScroll();
   const titleY = useTransform(scrollY, [0, 900], reduced ? [0, 0] : [0, -30]);
   const edges = [0, 21, 32, 41, 50, 59, 69, 77, 86, 100];
+  const originalLettering = hero.image === "/projects/identity/portfolio-lettering.webp";
+  const letterLayers = originalLettering
+    ? [..."Portfolio", "decoration"]
+    : edges.slice(0, -1);
   return (
     <motion.h1 className="portfolio-title" style={{ y: titleY }}>
       <span className="sr-only">
@@ -105,25 +107,30 @@ export function PortfolioTitle() {
       {ready &&
         !assembled &&
         !reduced &&
-        edges.slice(0, -1).map((left, i) => (
+        letterLayers.map((left, i) => (
           <motion.div
             className="lettering-slice"
             key={i}
-            style={{ clipPath: `inset(0 ${100 - edges[i + 1]}% 0 ${left}%)` }}
+            data-letter={originalLettering ? left : undefined}
+            style={originalLettering ? undefined : {
+              clipPath: `inset(0 ${100 - edges[i + 1]}% 0 ${left}%)`,
+            }}
             initial={{
               opacity: 0,
-              x: i % 2 ? 7 : -7,
-              y: 24,
-              rotate: i % 2 ? 0.35 : -0.35,
+              x: 0,
+              y: 18,
+              rotate: i % 2 ? 0.3 : -0.3,
             }}
             animate={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
-            transition={{ duration: 1.05, delay: i * 0.075, ease }}
+            transition={{ duration: 0.65, delay: i * 0.19, ease }}
             onAnimationComplete={() => {
-              if (i === 8) setAssembled(true);
+              if (i === letterLayers.length - 1) setAssembled(true);
             }}
           >
             <img
-              src={asset(letteringSource)}
+              src={asset(originalLettering
+                ? `/identity/portfolio-letter-${i}.svg`
+                : letteringSource)}
               alt=""
               aria-hidden="true"
               width="2134"
