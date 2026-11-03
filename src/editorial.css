@@ -1229,3 +1229,9 @@ footer:before {
     font-size: 13px;
   }
 }
+
+/* The homepage IQIYI cover stays still; its video lives on the project page. */
+.featured-story .curated-link.card-iqiyi-vision .project-media img {
+  transform: none;
+  transition: none;
+}
